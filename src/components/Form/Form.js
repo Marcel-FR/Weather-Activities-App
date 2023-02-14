@@ -1,33 +1,29 @@
-import { useState } from "react";
+import   {uid}  from 'uid';
+export default function Form ({onAddActivity}) { 
+    
+    function handleSubmit (event) {
+        event.preventDefault();   
+        const data = {id: uid(), name: event.target.name.value, isForGoodWeather: event.target.isForGoodWeather.checked};
+        onAddActivity(data);
+        event.target.reset();
+        event.target.name.focus(); 
+        }
+    return (
 
-export default function Form({ onAddActivity }) {
-    const [activityName, setActivityName] = useState("")
-    const [isGoodWeather, setIsGoodWeather] = useState(false)
+        <form onSubmit={handleSubmit}>
+            <h3>Add new Activity</h3>
 
-    function handleSubmit(event) {
-        onAddActivity(activityName, isGoodWeather);
-        setActivityName("");
-        setIsGoodWeather(false);
-    }
-
-return (
-    <form onSubmit={handleSubmit}>
-        <h2>Add new Activity</h2>
-        <label>
-            Name of activity:
-            <input type="text"
-            value={activityName}
-            onChange={(event) => setActivityName(event.target.value)}
-            />
-        </label>
-        <label>
-            Is this a good weather activity?
-            <input type="checkbox" 
-            checked={isGoodWeather}
-            onChange={(event) => setIsGoodWeather(event.target.checked)}
-            />
-        </label>
-        <button type="submit">Submit</button>
-    </form>
-);
+            <div>
+                <label htmlFor="activity-name">Name of activity: </label>
+                <input id="activity-name" name="name" type="text"></input>
+            </div>
+            <div>
+                <label htmlFor="good-weather-checkbox">Is this a good weather activity? </label>
+                <input id="good-weather-checkbox" type="checkbox" name="isForGoodWeather" ></input>
+            </div>
+            <div>
+                <button type="submit" >Submit</button>
+            </div>
+        </form>
+    )
 }
